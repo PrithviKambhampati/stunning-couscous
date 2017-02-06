@@ -1,52 +1,46 @@
 #!/usr/bin/env python
 import rospy
+import actionlib
 import random
 import sys
-from move_base_msgs.msg import MoveBaseActionGoal 
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseActionGoal 
+from actionlib_msgs.msg import *
 import time
+
+def DestNav(x,y):
+    mvbs = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+    mvbs.wait_for_server()
+    rospy.loginfo("server ready")
+    dest = MoveBaseGoal()
+        
+    dest.target_pose.header.frame_id = "map"
+    dest.target_pose.header.stamp = rospy.Time.now()
+
+    dest.target_pose.pose.position.x = x
+    dest.target_pose.pose.position.y = y
+    dest.target_pose.pose.position.z = 0
+    dest.target_pose.pose.orientation.x = 0.0
+    dest.target_pose.pose.orientation.y = 0.0
+    dest.target_pose.pose.orientation.z = 0.0
+    dest.target_pose.pose.orientation.w = 1.0
+       
+    rospy.loginfo("Sending goal location ...")
+    mvbs.send_goal(dest)
+            
+            
+    mvbs.wait_for_result(rospy.Duration(150))
 
 
 if __name__ == "__main__":
     try:
-    	rospy.init_node("test_random")
-    	rate = rospy.Rate(0.1)
-	seq=0
-        pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
-        cord=MoveBaseActionGoal()
-        cord.header.seq=seq
-        cord.header.stamp=rospy.Time.now()
-        cord.goal.target_pose.header.seq=seq
-        cord.goal.target_pose.header.stamp=rospy.Time.now()
-        cord.goal.target_pose.header.frame_id="map"
-        cord.goal.target_pose.pose.position.x=5
-        cord.goal.target_pose.pose.position.y=3
-        cord.goal.target_pose.pose.orientation.w=1.0
-        pub.publish(cord)
-        seq=seq+1
-        rate.sleep()
+        rospy.init_node("test_random")
+        DestNav(6.7, 6.7)
+	DestNav(3, -4)
+	DestNav(6.7, 6.7)
+	DestNav(-5, 8)
+        DestNav(-3, 3)
+	DestNav(-7.2,-4.36)
+        DestNav(6, -8)
 
-	init_time=rospy.Time.now().secs
-	while not rospy.is_shutdown() :
-		if rospy.Time.now().secs-init_time<600:
-    			pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
-			cord=MoveBaseActionGoal()
-			cord.header.seq=seq
-			cord.header.stamp=rospy.Time.now()
-			cord.goal.target_pose.header.seq=seq
-			cord.goal.target_pose.header.stamp=rospy.Time.now()
-			cord.goal.target_pose.header.frame_id="map"
-			x=7
-			y=4
-			cord.goal.target_pose.pose.position.x=x
-			cord.goal.target_pose.pose.position.y=y
-			cord.goal.target_pose.pose.orientation.w=1.0
-			pub.publish(cord)
-			seq=seq+1
-		else:
-			print "Time out for scanning. time now=%s initial time=%s" %(rospy.Time.now().secs,init_time)
-			break
-		print "random position selected x=%s y=%s" %(x,y)	
-	   	rate.sleep()
-	    
     except rospy.ROSInterruptException:
 	pass

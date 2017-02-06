@@ -16,7 +16,7 @@
 
   <!-- Spawn Jackal -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-	      args="-urdf -model jackal -param robot_description -z 1.0" />
+	      args="-urdf -model jackal -param robot_description -x 0 -y 0 -z 1.0" />
 
   <!--- Run gmapping -->
   <include file="$(find jackal_navigation)/launch/include/gmapping.launch" />
@@ -30,7 +30,5 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
 
   <!-- Run Node that sets 2D Navigation goals for map exploration-->
-<group ns="lab_three">
-    <node pkg="project4" name="random_map" type="test_random.py"/>
-</group> 
+    <node pkg="project4" name="test_random" type="test_random.py"/>
 </launch>
