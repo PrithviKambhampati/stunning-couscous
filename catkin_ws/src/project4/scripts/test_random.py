@@ -9,7 +9,7 @@ import time
 if __name__ == "__main__":
     try:
     	rospy.init_node("test_random")
-    	rate = rospy.Rate(0.03)
+    	rate = rospy.Rate(0.1)
 	seq=0
         pub = rospy.Publisher("/move_base/goal", MoveBaseActionGoal, queue_size=10)
         cord=MoveBaseActionGoal()
@@ -18,8 +18,8 @@ if __name__ == "__main__":
         cord.goal.target_pose.header.seq=seq
         cord.goal.target_pose.header.stamp=rospy.Time.now()
         cord.goal.target_pose.header.frame_id="map"
-        cord.goal.target_pose.pose.position.x=random.uniform(5,3)
-        cord.goal.target_pose.pose.position.y=random.uniform(10,3)
+        cord.goal.target_pose.pose.position.x=5
+        cord.goal.target_pose.pose.position.y=3
         cord.goal.target_pose.pose.orientation.w=1.0
         pub.publish(cord)
         seq=seq+1
@@ -35,8 +35,8 @@ if __name__ == "__main__":
 			cord.goal.target_pose.header.seq=seq
 			cord.goal.target_pose.header.stamp=rospy.Time.now()
 			cord.goal.target_pose.header.frame_id="map"
-			x=random.uniform(-15,15)
-			y=random.uniform(-15,15)
+			x=7
+			y=4
 			cord.goal.target_pose.pose.position.x=x
 			cord.goal.target_pose.pose.position.y=y
 			cord.goal.target_pose.pose.orientation.w=1.0
