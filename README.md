@@ -26,3 +26,4 @@ $ catkin_make
 $ source devel/setup.bash
 ```
 
+### For more information, look at the wiki page of this document.
