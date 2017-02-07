@@ -15,11 +15,11 @@
   <include file="$(find jackal_control)/launch/control.launch" />
 
   <!-- Spawn Jackal -->
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-	      args="-urdf -model jackal -param robot_description -x 0 -y 0 -z 1.0" />
+  <!-- <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+	      args="-urdf -model jackal -param robot_description -x 0 -y 0 -z 1.0" /> -->
 
   <!--- Run gmapping -->
-  <include file="$(find jackal_navigation)/launch/include/gmapping.launch" />
+  <include file="$(find project4)/launch/gmapping_mod.launch" />
 
   <!--- Run Move Base -->
   <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
