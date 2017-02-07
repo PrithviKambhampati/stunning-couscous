@@ -16,8 +16,6 @@
   <!--- Run Move Base -->
   <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
 
-  <node pkg="project4" name="random_spawner" type="random_spawner.py"  output="screen"/>
-
   <node pkg="project4" name="patroller" type="patroller.py" output="screen">
     <rosparam command="load" file="$(find project4)/configs/waypoint_list.yaml" ns="project4"/>
   </node>
