@@ -1,8 +1,12 @@
 # stunning-couscous
 EE5900 project-4 
+
 Team 3
+
 -Deep Doshi
+
 -Haden Wasserbaech
+
 -Prithvi Kambhampati
 ## Development
 
