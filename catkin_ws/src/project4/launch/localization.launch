@@ -4,7 +4,7 @@
   <!-- Launch Gazebo with the specified world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!-- <arg name="debug" value="0" /> -->
-    <arg name="gui" value="true" />
+    <arg name="gui" value="false" />
     <arg name="use_sim_time" value="true" />
     <arg name="headless" value="false" />
     <arg name="world_name" default="$(find jackal_gazebo)/worlds/jackal_race.world" />
@@ -28,7 +28,7 @@
 
   <!-- Run Rviz with gmapping configuration-->
   <param name="use_gui" value="true"/>
-  <arg name="config" default="gmapping" />
+  <arg name="config" default="localization" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
 
   <!-- <node pkg="rosbag" type="record" name="rosbag_record_" args="record /tf /scan" if="$(arg record)" /> -->
