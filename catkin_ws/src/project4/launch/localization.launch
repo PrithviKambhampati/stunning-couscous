@@ -4,7 +4,7 @@
   <!-- Launch Gazebo with the specified world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <!-- <arg name="debug" value="0" /> -->
-    <arg name="gui" value="false" />
+    <arg name="gui" value="true" />
     <arg name="use_sim_time" value="true" />
     <arg name="headless" value="false" />
     <arg name="world_name" default="$(find jackal_gazebo)/worlds/jackal_race.world" />
@@ -14,14 +14,12 @@
   </include>
   <include file="$(find jackal_control)/launch/control.launch" />
 
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -model jackal -param robot_description -x 0 -y 0 -z 1.0" />
+  <!-- Run Node that sets 2D Navigation goals for map exploration-->
+  <node pkg="project4" name="patroller" type="patroller.py" output="screen"/>
 
   <!-- Run the map server -->
   <arg name="map_file" default="$(find project4)/maps/map.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
-
-  <!--- Run AMCL -->
-  <include file="$(find jackal_navigation)/launch/include/amcl.launch" />
 
   <!--- Run Move Base -->
   <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
@@ -31,5 +29,5 @@
   <arg name="config" default="localization" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
 
-  <!-- <node pkg="rosbag" type="record" name="rosbag_record_" args="record /tf /scan" if="$(arg record)" /> -->
+  <node pkg="rosbag" type="record" name="rosbag_record" args="record -o $(find project4)/bagfiles/localize /tf /front/scan" if="$(arg record)" />
 </launch>

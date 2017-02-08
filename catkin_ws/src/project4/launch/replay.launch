@@ -1,20 +1,15 @@
 <launch>
-  
+  <arg name="map_file" default="$(find project4)/maps/gmapping.yaml"/>
+  <arg name="bag_file" default="$(find project4)/bagfiles/laserData2.bag"/>
+
   <param name="use_sim_time" value="true" />
 
-  <!-- Run gmapping -->
-  <node 
-    pkg="gmapping" 
-    type="slam_gmapping" 
-    name="replay_map" 
-    args="scan:=/front/scan" 
-  />
+  <!-- Replay bag file-->
+  <node pkg="rosbag" name="play" type="play" args="$(arg bag_file)"/>
 
-  <!-- replay-->
-  <node
-    pkg="rosbag"
-    name="play"
-    type="play"
-    args="laserData1.bag"
-  />
+  <!-- Run gmapping -->
+  <node pkg="gmapping" type="slam_gmapping" name="replay_map" args="scan:=/front/scan"/>
+
+ <!-- Run the map server -->
+ <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/> -->
 </launch>
