@@ -120,10 +120,8 @@ if __name__ == "__main__":
 
         print("x = {}     y = {}".format(spawn_x, spawn_y))
 
-        os.system("roslaunch project4 amcl.launch x_initial:={} y_initial:={} &".format(spawn_x, spawn_y))
-
-        #amcl_args = ["roslaunch", "project4", "amcl.launch", "x_initial:={}".format(spawn_x), "y_initial:={}".format(spawn_y)]
-        #amcl_launch = subprocess.Popen(amcl_args)   # pass cmd and args to the function
+        amcl_args = ["roslaunch", "project4", "amcl.launch", "x_initial:={}".format(spawn_x), "y_initial:={}".format(spawn_y)]
+        amcl_launch = subprocess.Popen(amcl_args)   # pass cmd and args to the function
 
         time.sleep(5)
 
@@ -151,4 +149,4 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException:
 	    pass
 
-    #amcl_launch.send_signal(signal.SIGINT)   # send Ctrl-C signal
+    amcl_launch.send_signal(signal.SIGINT)   # send Ctrl-C signal
