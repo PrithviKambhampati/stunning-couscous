@@ -9,6 +9,9 @@ import time
 import roslaunch
 from geometry_msgs.msg import Twist
 import math
+from std_msgs.msg import Int64
+from project4.msg import spawn
+
 
 def rotate():
     current_angle = 0
@@ -53,6 +56,12 @@ def RandSpawn():
 
     spawn_x = l[0]
     spawn_y = l[1]
+    pub = rospy.Publisher('chatter', spawn, queue_size=10)
+    msg=spawn()
+    msg.spawnx=spawn_x
+    msg.spawny=spawn_y
+    rospy.loginfo(msg)
+    pub.publish(msg)
 
     time.sleep(10)
 
