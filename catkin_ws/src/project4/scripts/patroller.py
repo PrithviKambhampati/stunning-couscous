@@ -91,8 +91,6 @@ def DestNav(x,y):
     rospy.loginfo("Sending goal location ...")
     mvbs.send_goal(dest)
 
-    mvbs.wait_for_result(rospy.Duration(100))
-
 
 if __name__ == "__main__":
     try:
