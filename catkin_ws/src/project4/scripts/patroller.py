@@ -10,6 +10,11 @@ import roslaunch
 from geometry_msgs.msg import Twist
 import math
 import os
+import subprocess
+import signal
+
+spawn_x = 0
+spawn_y = 0
 
 
 def rotate():
@@ -30,6 +35,7 @@ def rotate():
 def RandSpawn():
     global spawn_x
     global spawn_y
+
     package = 'gazebo_ros'
     executable = 'spawn_model'
     arguments = '-urdf -model jackal -param robot_description '
@@ -91,8 +97,16 @@ def DestNav(x,y):
     rospy.loginfo("Sending goal location ...")
     mvbs.send_goal(dest)
 
+    mvbs.wait_for_result(rospy.Duration(100))
+
+    rotate()
+
 
 if __name__ == "__main__":
+    global spawn_x
+    global spawn_y
+    amcl_launch = None
+
     try:
         rospy.init_node("patroller")
     	rate = rospy.Rate(50)
@@ -104,7 +118,14 @@ if __name__ == "__main__":
 
     	RandSpawn()
 
+        print("x = {}     y = {}".format(spawn_x, spawn_y))
+
         os.system("roslaunch project4 amcl.launch x_initial:={} y_initial:={} &".format(spawn_x, spawn_y))
+
+        #amcl_args = ["roslaunch", "project4", "amcl.launch", "x_initial:={}".format(spawn_x), "y_initial:={}".format(spawn_y)]
+        #amcl_launch = subprocess.Popen(amcl_args)   # pass cmd and args to the function
+
+        time.sleep(5)
 
     	rotate()
 
@@ -129,3 +150,5 @@ if __name__ == "__main__":
 
     except rospy.ROSInterruptException:
 	    pass
+
+    #amcl_launch.send_signal(signal.SIGINT)   # send Ctrl-C signal
