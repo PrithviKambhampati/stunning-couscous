@@ -3,7 +3,7 @@ import rospy
 import actionlib
 import random
 import sys
-from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseActionGoal 
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal, MoveBaseActionGoal
 from actionlib_msgs.msg import *
 import time
 import roslaunch
@@ -30,7 +30,7 @@ def RandSpawn():
     global spawn_y
     package = 'gazebo_ros'
     executable = 'spawn_model'
-    arguements = '-urdf -model jackal -param robot_description '
+    arguments = '-urdf -model jackal -param robot_description '
     spawn_location = [  '-x 0.0 -y 0.0 -z 1.0',
                         '-x 3.0 -y -4.0 -z 1.0',
                         '-x 7.0 -y 7.0 -z 1.0',
@@ -38,7 +38,7 @@ def RandSpawn():
 
     location = random.choice(spawn_location)
     #location = '-x 0 -y 7 -z 1.0'
-    arguements += location
+    arguments += location
 
     #coords = [int(s) for s in location.split() if s.isdigit()]
     #spawn_x = coords[0]
@@ -56,7 +56,7 @@ def RandSpawn():
 
     time.sleep(10)
 
-    node = roslaunch.core.Node(package, executable, args=arguements)
+    node = roslaunch.core.Node(package, executable, args=arguments)
 
     launch = roslaunch.scriptapi.ROSLaunch()
     launch.start()
@@ -74,7 +74,7 @@ def DestNav(x,y):
     mvbs.wait_for_server()
     rospy.loginfo("server ready")
     dest = MoveBaseGoal()
-        
+
     dest.target_pose.header.frame_id = "map"
     dest.target_pose.header.stamp = rospy.Time.now()
 
@@ -85,10 +85,10 @@ def DestNav(x,y):
     dest.target_pose.pose.orientation.y = 0.0
     dest.target_pose.pose.orientation.z = 0.0
     dest.target_pose.pose.orientation.w = 1.0
-       
+
     rospy.loginfo("Sending goal location ...")
-    mvbs.send_goal(dest)       
-            
+    mvbs.send_goal(dest)
+
     mvbs.wait_for_result(rospy.Duration(100))
 
 
@@ -98,10 +98,10 @@ if __name__ == "__main__":
 	rate = rospy.Rate(50)
 	pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
 	twist = Twist()
-	
+
 	#way_x = [3,-5,-3,-7.2,6]
 	#way_y = [-4,8,3,-4.36,8]
-	
+
 	RandSpawn()
 
 	rotate()

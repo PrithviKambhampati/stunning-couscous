@@ -8,7 +8,7 @@ import random
 def patroller():
     package = 'gazebo_ros'
     executable = 'spawn_model'
-    arguements = '-urdf -model jackal -param robot_description '
+    arguments = '-urdf -model jackal -param robot_description '
     spawn_location = [  '-x 0 -y 0 -z 1.0',
                         '-x 0 -y 7 -z 1.0',
                         '-x 7 -y 7 -z 1.0',
@@ -16,11 +16,11 @@ def patroller():
 
     location = random.choice(spawn_location)
     #location = '-x 0 -y 7 -z 1.0'
-    arguements += location
+    arguments += location
 
     time.sleep(10)
 
-    node = roslaunch.core.Node(package, executable, args=arguements)
+    node = roslaunch.core.Node(package, executable, args=arguments)
 
     launch = roslaunch.scriptapi.ROSLaunch()
     launch.start()
